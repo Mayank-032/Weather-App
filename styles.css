@@ -1,0 +1,261 @@
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: #cbd0d1;
+    /* background-color:black */
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.jumbotron{
+    margin-bottom: 0px;
+    min-height: 200px;
+}
+
+.navbar{
+    position: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.navbar-light .navbar-brand {
+    color: #c5d1c8;
+    float: left;
+}
+
+.navbar .navbar-brand:hover {
+    color: #c5d1c8;
+}
+
+.navbar-light .navbar-nav .nav-item .nav-link{
+    color: #c5d1c8;
+    margin-left: 20px;   
+}
+
+.navbar-light .navbar-nav .nav-item .nav-link:hover{
+    font-size: large;
+}
+
+.navbar-light .navbar-toggler{
+    border-color: #c5d1c8;
+    background-color: #c5d1c8;
+    margin: 0; 
+}
+
+.search-heading{
+    margin-top: 10%;
+    margin-bottom: 5%;
+}
+
+.form-control{
+    width: 70%;
+    margin-left: 30%;
+    border: 2px solid maroon;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    margin-right: 1px;
+    overflow-x: hidden;
+}
+
+.btn{
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    border: 2px solid maroon;
+}
+
+.btn:hover{
+    background-color: grey;
+}
+
+#map{
+    margin-bottom: 50px;
+    height: 400px;
+    width: 100%;
+}
+
+#label-day{
+    margin-left: 40%;
+    margin-bottom: 50px;
+}
+
+#Days-data{
+    display: flex;
+}
+
+#Days-data-img{
+    display: flex;
+}
+
+#day-weather{
+    margin-left: 50px;  
+    margin-right: 68px;
+}
+
+.card{
+    margin-left: 10px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+}
+
+#card-img{
+    margin-left: 0px;
+
+}
+
+#weather-attribute-time{
+    position: absolute;
+    top: 35px;
+    left: 40px;
+    font-size: 20px;
+}
+
+#weather-attribute-prec{
+    position: absolute;
+    top: 61px;
+    left: 16px;
+    font-size: 20px;
+}
+
+#weather-attribute-humid{
+    position: absolute;
+    top: 89px;
+    left: 16px;
+    font-size: 20px;
+}
+
+#weather-attribute-temp{
+    position: absolute;
+    top: 119px;
+    left: 16px;
+    font-size: 20px;
+}
+
+#weather-attribute-pres{
+    position: absolute;
+    top: 152px;
+    left: 16px;
+    font-size: 20px;
+}
+
+#weather-attribute-ws{
+    position: absolute;
+    top: 183px;
+    left: 16px;
+    font-size: 20px;
+}
+
+#heading2{
+    margin-top: 30px;
+    margin-bottom: 40px;
+    margin-left: 40px; 
+}
+
+#heading3{
+    margin-left: 15px;
+    margin-bottom: 5%;
+}
+
+#heading4{
+    margin-left: 15px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#news{
+    display: flex;
+}
+
+#news-col{
+    width: 100% - 328px;
+}
+
+#articles-col{
+    width: 328px;
+}
+
+#news_weather{
+    margin-left: 35px;
+    margin-bottom: 35px;
+    width: 240px;
+}
+
+#heading4{
+    margin-top: 5%;
+    margin-left: 15px;
+    margin-bottom:5%;
+}
+
+#news-style{
+    margin-bottom: 100px;
+    text-decoration: none;
+    color: black;
+}
+
+#news-style:hover{
+    color: maroon; 
+}
+
+#video{
+    margin-left: 15px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#loading-bar{
+    width: 40px;
+    height: 40px;
+}
+
+#show-more{
+    text-decoration: none;
+    width: 50%;
+    color: black;
+}
+
+#show-more:hover{
+    color: maroon;
+}
+
+.footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    text-align: center;
+    overflow: hidden;
+}
+
+#footer-row{
+    margin-top: 40px;
+}
+
+.Company-Services{
+    list-style: none;
+}
+
+#newsletter-name{
+    margin-bottom: 20px;
+}
+
+#newsletter-email{
+    margin-bottom: 20px;
+}
+
+#newsletter-submit{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.vl {
+    border-left: 6px solid black;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
