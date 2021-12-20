@@ -28,7 +28,7 @@ function initMap(){
         var longitude = event.latLng.lng();
 
         WeatherReport(latitude, longitude);
-        $(window).scrollTop($('#Days-data').position().top);
+        $(window).scrollTop($('#Days-data-img').position().top);
     });
     
 
@@ -90,6 +90,7 @@ function initMap(){
 let currWeatherData = document.getElementById('Days-data');
 let currWeatherDataImg = document.getElementById('Days-data-img');
 let city_name = document.getElementById('Select-days');
+let chart_section = document.getElementById('chart-section');
 
 function WeatherReport(latitude, longitude){
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+latitude+'&'+'lon='+longitude+'&'+'exclude=minutely&units=metric&appid=bbd672373a57758125b5a2c935617694')
@@ -105,32 +106,85 @@ function WeatherReport(latitude, longitude){
     .catch(err => console.log(err));
 }
 
+let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+let months = [".,", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function showWeatherReport(data){
-    let str = (data.hourly[0].weather[0].description);
+    let max = data.hourly[0].temp; 
+    let min = data.hourly[0].temp; 
+    for(let i=0; i<48; i++){
+        max = Math.max(max, data.hourly[i].temp);
+        min = Math.min(min, data.hourly[i].temp);
+    }
+
+    let chartVerticalData = [];
+    min = min - 10;
+    max = max + 10;
+    chartVerticalData.push(min);
+    for(let i=0; i<48; i++){
+        chartVerticalData.push(data.hourly[i].temp);
+    }
+    chartVerticalData.push(max);
+
+    let chartHorizontalData = [];
+    for(let i=0; i<48; i++){
+        chartHorizontalData.push(moment(data.hourly[i].dt * 1000).format('h:mm a'));
+    }
+    
+
+    let date0 = new Date();
+    date0.setDate(date0.getDate()+0);
+    let resDate0 = days[date0.getDay()] + ", " + months[date0.getMonth() + 1] + " " + date0.getDate();
+
+    let date1 = new Date();
+    date1.setDate(date1.getDate()+1);
+    let resDate1 = days[date1.getDay()] + ", " + months[date1.getMonth() + 1] + " " + date1.getDate();
+
+    let date2 = new Date();
+    date2.setDate(date2.getDate()+2);
+    let resDate2 = days[date2.getDay()] + ", " + months[date2.getMonth() + 1] + " " + date2.getDate();
+
+    let date3 = new Date();
+    date3.setDate(date3.getDate()+3);
+    let resDate3 = days[date3.getDay()] + ", " + months[date3.getMonth() + 1] + " " + date3.getDate();
+
+    let date4 = new Date();
+    date4.setDate(date4.getDate()+4);
+    let resDate4 = days[date4.getDay()] + ", " + months[date4.getMonth() + 1] + " " + date4.getDate();
+
+    let date5 = new Date();
+    date5.setDate(date5.getDate()+5);
+    let resDate5 = days[date5.getDay()] + ", " + months[date5.getMonth() + 1] + " " + date5.getDate();
+
+    let date6 = new Date();
+    date6.setDate(date6.getDate()+6);
+    let resDate6 = days[date6.getDay()] + ", " + months[date6.getMonth() + 1] + " " + date6.getDate();
+
+    
+    let str = (data.daily[0].weather[0].description);
     let rain = false; let clouds = false; let snow = false; let clear = false; let thunderstorm = false;
     let ans = ``;
 
-    let str1 = (data.hourly[2].weather[0].description);
+    let str1 = (data.daily[1].weather[0].description);
     let rain1 = false; let clouds1 = false; let snow1 = false; let clear1 = false; let thunderstorm1 = false;
     let ans1 = ``;
 
-    let str2 = (data.hourly[4].weather[0].description);
+    let str2 = (data.daily[2].weather[0].description);
     let rain2 = false; let clouds2 = false; let snow2 = false; let clear2 = false; let thunderstorm2 = false;
     let ans2 = ``;
 
-    let str3 = (data.hourly[6].weather[0].description);
+    let str3 = (data.daily[3].weather[0].description);
     let rain3 = false; let clouds3 = false; let snow3 = false; let clear3 = false; let thunderstorm3 = false;
     let ans3 = ``;
 
-    let str4 = (data.hourly[8].weather[0].description);
+    let str4 = (data.daily[4].weather[0].description);
     let rain4 = false; let clouds4 = false; let snow4 = false; let clear4 = false; let thunderstorm4 = false;
     let ans4 = ``;
 
-    let str5 = (data.hourly[10].weather[0].description);
+    let str5 = (data.daily[5].weather[0].description);
     let rain5 = false; let clouds5 = false; let snow5 = false; let clear5 = false; let thunderstorm5 = false;
     let ans5 = ``;
 
-    let str6 = (data.hourly[12].weather[0].description);
+    let str6 = (data.daily[6].weather[0].description);
     let rain6 = false; let clouds6 = false; let snow6 = false; let clear6 = false; let thunderstorm6 = false;
     let ans6 = ``;
 
@@ -274,6 +328,7 @@ function showWeatherReport(data){
             <img id="day-weather" src="/img/days-data-weather-img/thunder.svg" alt="Thunder">
         </div>`
     }
+
     if(str5.includes("rain")) {
         rain5 = true;
         ans5 += `<div>
@@ -333,72 +388,129 @@ function showWeatherReport(data){
     ans + "\n\n" + ans1 + "\n\n" + ans2 + "\n\n" + ans3 + "\n\n" + ans4 + "\n\n" + ans5 + "\n\n" + ans6
 
     currWeatherData.innerHTML = 
-    `<div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[0].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[0].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[0].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[0].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[0].wind_speed}</h3>
+    `<div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate0}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[0].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[0].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[0].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[0].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[2].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[2].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[2].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[2].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[2].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate1}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[1].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[1].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[1].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[1].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[4].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[4].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[4].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[4].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[4].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate2}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[2].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[2].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[2].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[2].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[6].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[6].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[6].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[6].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[6].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate3}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[3].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[3].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[3].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[3].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[8].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[8].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[8].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[8].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[8].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate4}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[4].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[4].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[4].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[4].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[10].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[10].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[10].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[10].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[10].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate5}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[5].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[5].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[5].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[5].wind_speed} </h3>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 10.2rem; height: 17rem;">
-        <img id="card-img" src="/img/cards.png" alt="Cards" style="width:10rem; height: 17rem;">
-        <h3 id="weather-attribute-time">${window.moment(data.hourly[12].dt * 1000).format("h:mm a")}</h3>
-        <h3 id="weather-attribute-humid">Humidity: ${data.hourly[12].humidity}</h3>
-        <h3 id="weather-attribute-temp">Temp: ${data.hourly[12].temp}</h3>
-        <h3 id="weather-attribute-pres">Press: ${data.hourly[12].pressure}</h3>
-        <h3 id="weather-attribute-ws">Wind: ${data.hourly[12].wind_speed}</h3>
+    <div id="days-data-card" class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3 id="weather-attribute-Date">${resDate6}</h3>
+                <img src="/img/card-back-img3.jpg" style="width:9rem; height: 12rem">
+            </div>
+                      
+            <div class="card-back">
+                <h3 id="weather-attribute-humid">Humidity: ${data.daily[6].humidity} </h3>
+                <h3 id="weather-attribute-temp">Temperature: ${data.daily[6].temp.day} </h3>
+                <h3 id="weather-attribute-pres">Pressure: ${data.daily[6].pressure} </h3>
+                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[6].wind_speed} </h3>
+            </div>
+        </div>
     </div>`
+
+    chart_section.innerHTML = 
+    `<div>
+        <canvas style=" margin-left: 20px; margin-bottom: 50px; width: 50%; height: 40%" id="myChart"></canvas>
+    </div>
+    `
+
+    displayChart(chartVerticalData, data, chartHorizontalData);
 }
 
 function showCityName(data){
-    console.log(data);
+    // console.log(data);
     let ans = data[0].name;
     
     if(data[0].state != undefined){
@@ -429,201 +541,236 @@ function DisplayCityNameUsingUsingSearchBar(data){
     $(window).scrollTop($('#Days-data-img').position().top);
 }
 
-let news_feed = document.getElementById('NewsFeed');
+function displayChart(chartVerticalData, data, chartHorizontalData){
+    // creating a chart
+    const labels = chartHorizontalData;
 
-// newsReport();
-function newsReport(){
-    fetch('http://api.mediastack.com/v1/news?access_key=5f76ca02d982da8f9283ccd81690d20e&search=abc&categories=business,technology,science,sports,health&languages=en&offset=0&limit=100')
-        .then(response => response.json())
-        .then(data => showNewsAndArticles(data))
+    const dataContainer = {
+        labels: labels,
+        datasets: [{
+            label: 'Temperature(in celcius) per hour',
+            backgroundColor: 'rgb(156, 13, 0)',
+            borderColor: 'rgb(156, 13, 0)',
 
-    .catch(err => console.log(err))
+            data: chartVerticalData
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: dataContainer,
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            devicePixelRatio: window.devicePixelRatio,
+            animations: {
+                tension: {
+                  duration: 10000,
+                  easing: 'linear',
+                  from: 1,
+                  to: 0,
+                  loop: true
+                }
+            },
+            scales: {
+                y: { // defining min and max so hiding the dataset does not change scale range
+                  min: -100,
+                  max: 100
+                }
+            },
+        },
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
 }
 
-function showNewsAndArticles(data){
-    news_feed.innerHTML = `
-    <h1 style="margin-left: 40px; margin-top: 20px;">WorldWide News</h1>
-    <div class="row">
-        <div id="showNews" class="col-6">
-            <a href=${data.data[0].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 40px; margin-top: 40px;">
-                <div class="row no-gutters">
-                    <div class="col-md-2">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[0].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[0].description}</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
+showNews();
+function showNews(){
+    fetch('https://newsapi.org/v2/everything?q=bitcoin&apiKey=8b8fe4c2e9cd4c09917b32d63dd3048c')
+        .then(response => response.json())
+        .then(data => showData(data))
 
-            <a href=${data.data[10].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 40px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[10].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[10].description}</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
+    .catch(err => console.log(err));
+}
 
-            <a href=${data.data[20].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[20].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[20].description}</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
+let newsAndArticles = document.getElementById('news');
+function showData(data){
+    console.log(data);
 
-            <a href=${data.data[30].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[30].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[30].description}</p>
-                        </div>
-                    </div>
+    newsAndArticles.innerHTML = 
+    `
+    <div class="news-report">
+        <a href=${data.articles[0].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[0].urlToImage} alt="">
                 </div>
-            </a>
 
-            <a href=${data.data[40].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[40].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[40].description}</p>
-                        </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[0].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[0].description}</p>
                     </div>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <a href=${data.data[50].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[50].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[50].description}</p>
-                        </div>
-                    </div>
+        <a href=${data.articles[1].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[1].urlToImage} alt="">
                 </div>
-            </a>
 
-            <a href=${data.data[60].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[60].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[60].description}</p>
-                        </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[1].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[1].description}</p>
                     </div>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <a href=${data.data[70].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[70].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[70].description}</p>
-                        </div>
-                    </div>
+        <a href=${data.articles[13].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[13].urlToImage} alt="">
                 </div>
-            </a>
 
-            <a href=${data.data[80].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[80].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[80].description}</p>
-                        </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[13].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[13].description}</p>
                     </div>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <a href=${data.data[90].url} class="card" style="max-width: 540px; max-height: 120px; color: inherit; margin-left: 60px; margin-bottom: 60px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img style="width: 100%; height:100%;" src="/img/News_Img/news_img.jpg" alt="Weather-Img">
+        <a href=${data.articles[3].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[3].urlToImage} alt="">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[3].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[3].description}</p>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[90].title}</h5>
-                            <p class="card-text" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${data.data[90].description}</p>
-                        </div>
+                </div>
+            </div>
+        </a>
+
+        <a href=${data.articles[4].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[4].urlToImage} alt="">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[4].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[4].description}</p>
                     </div>
                 </div>
-            </a>
-        </div>
+            </div>
+        </a>
 
-        <div id="showArticles" style="margin-top: 40px;" class="col-6">
-            <a href=${data.data[5].url} class="card" style="max-width: 340px; max-height: 320px; color: inherit; margin-top: 70px; margin-left: 120px; margin-bottom: 50px;">
-                <img style="width: 100%; height:100%;" src="/img/News_Img/articles_img.jpg" class="card-img-top" alt="Aricles_img">
-                <div class="card-body">
-                    <h5 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-title">${data.data[5].title}</h5>
-                    <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-text">${data.data[5].description}</p>
+        <a href=${data.articles[5].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[5].urlToImage} alt="">
                 </div>
-            </a>
 
-            <a href=${data.data[25].url} class="card" style="max-width: 340px; max-height: 320px; color: inherit; margin-top: 35px; margin-left: 120px; margin-bottom: 50px;">
-                <img style="width: 100%; height:100%;" src="/img/News_Img/articles_img.jpg" class="card-img-top" alt="Aricles_img">
-                <div class="card-body">
-                    <h5 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-title">${data.data[25].title}</h5>
-                    <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-text">${data.data[25].description}</p>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[5].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[5].description}</p>
+                    </div>
                 </div>
-            </a>
+            </div>
+        </a>
 
-            <a href=${data.data[55].url} class="card" style="max-width: 340px; max-height: 320px; color: inherit; margin-top: 35px; margin-left: 120px; margin-bottom: 50px;">
-                <img style="width: 100%; height:100%;" src="/img/News_Img/articles_img.jpg" class="card-img-top" alt="Aricles_img">
-                <div class="card-body">
-                    <h5 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-title">${data.data[55].title}</h5>
-                    <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-text">${data.data[55].description}</p>
+        <a href=${data.articles[6].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[6].urlToImage} alt="">
                 </div>
-            </a>
 
-            <a href=${data.data[75].url} class="card" style="max-width: 340px; max-height: 320px; color: inherit; margin-top: 35px; margin-left: 120px; margin-bottom: 50px;">
-                <img style="width: 100%; height:100%;" src="/img/News_Img/articles_img.jpg" class="card-img-top" alt="Aricles_img">
-                <div class="card-body">
-                    <h5 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-title">${data.data[75].title}</h5>
-                    <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" class="card-text">${data.data[75].description}</p>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[6].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[6].description}</p>
+                    </div>
                 </div>
-            </a>
-        </div>
+            </div>
+        </a>
+
+        <a href=${data.articles[7].url} id="news-card" class="card" style="max-width: 600px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img id="card-img" src=${data.articles[7].urlToImage} alt="">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-left:12px;">${data.articles[7].title}</h5>
+                        <p class="card-text" style="margin-left:12px;">${data.articles[7].description}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 
-    <center>
-        <img id="loading-bar" src="/img/three-dots.svg" alt="Loading">
-        <a id="show-more" href="#"><h5 style="margin-bottom: 40px;">Show More</h5></a>
-    </center>
+    <div class="article">
+        <a href=${data.articles[8].url} id="news-article" class="card">
+            <img src=${data.articles[8].urlToImage} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${data.articles[8].title}</h5>
+                <p class="card-text">${data.articles[8].description}</p>
+            </div>
+        </a>
+
+        <a href=${data.articles[9].url} id="news-article" class="card">
+            <img src=${data.articles[9].urlToImage} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${data.articles[9].title}</h5>
+                <p class="card-text">${data.articles[9].description}</p>
+            </div>
+        </a>
+
+        <a href=${data.articles[10].url} id="news-article" class="card">
+            <img src=${data.articles[10].urlToImage} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${data.articles[10].title}</h5>
+                <p class="card-text">${data.articles[10].description}</p>
+            </div>
+        </a>
+
+        <a href=${data.articles[11].url} id="news-article" class="card">
+            <img src=${data.articles[11].urlToImage} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${data.articles[11].title}</h5>
+                <p class="card-text">${data.articles[11].description}</p>
+            </div>
+        </a>
+
+        <a href=${data.articles[12].url} id="news-article" class="card">
+            <img src=${data.articles[12].urlToImage} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${data.articles[12].title}</h5>
+                <p class="card-text">${data.articles[12].description}</p>
+            </div>
+        </a>
+    </div>
     `
+}
+
+changeBackground();
+function changeBackground(){
+    fetch('https://api.unsplash.com/search/users?page=1&query=nas>; rel="first"')
+        .then(response => response.json())
+        .then(data => console.log(data))
 }
