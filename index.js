@@ -1,17 +1,19 @@
 document.addEventListener("DOMContentLoaded", function(){
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
-          document.getElementById('navbar_top').classList.add('fixed-top');
-          // add padding top to show content behind navbar
-          navbar_height = document.querySelector('.navbar').offsetHeight;
-          document.body.style.paddingTop = navbar_height + 'px';
+            document.getElementById('navbar_top').classList.add('fixed-top');
+            // add padding top to show content behind navbar
+            navbar_height = document.querySelector('.navbar').offsetHeight;
+            document.body.style.paddingTop = navbar_height + 'px';
         } else {
-          document.getElementById('navbar_top').classList.remove('fixed-top');
-           // remove padding top from body
-          document.body.style.paddingTop = '0';
-        } 
+            document.getElementById('navbar_top').classList.remove('fixed-top');
+            // remove padding top from body
+            document.body.style.paddingTop = '0';
+        }   
     });
-}); 
+});
+
+
 
 function initMap(){
     var options = {
@@ -47,27 +49,27 @@ function initMap(){
     // })
 
     // Array of Markers
-    var markers = [
-        {
-            coords:{lat:27.8974, lng:78.0880},
-            content: '<h6>Aligarh, UP</h6>'
-        },
+    // var markers = [
+    //     {
+    //         coords:{lat:27.8974, lng:78.0880},
+    //         content: '<h6>Aligarh, UP</h6>'
+    //     },
 
-        {
-            coords:{lat:19.0760, lng:72.8777},
-            content: '<h6>Mumbai, Maharashtra</h6>'
-        }, 
+    //     {
+    //         coords:{lat:19.0760, lng:72.8777},
+    //         content: '<h6>Mumbai, Maharashtra</h6>'
+    //     }, 
 
-        {
-            coords:{lat:28.7041, lng:77.1025},
-            content: '<h6>New Delhi, Delhi</h6>'
-        }
-    ];
+    //     {
+    //         coords:{lat:28.7041, lng:77.1025},
+    //         content: '<h6>New Delhi, Delhi</h6>'
+    //     }
+    // ];
 
     // Loop through markers
-    for(let i=0; i<markers.length; i++){
-        addMarker(markers[i]);
-    }
+    // for(let i=0; i<markers.length; i++){
+    //     addMarker(markers[i]);
+    // }
 
     function addMarker(props){
         var marker = new google.maps.Marker({
@@ -75,15 +77,15 @@ function initMap(){
             map: map,
         });
 
-        if(props.content){
-            var infoWindow = new google.maps.InfoWindow({
-                content: props.content
-            });
+        // if(props.content){
+        //     // var infoWindow = new google.maps.InfoWindow({
+        //     //     content: props.content
+        //     // });
 
-            marker.addListener('click', function(){
-                infoWindow.open(map, marker);
-            });
-        }
+        //     // marker.addListener('click', function(){
+        //     //     infoWindow.open(map, marker);
+        //     // });
+        // }
     }
 }
 
@@ -396,10 +398,10 @@ function showWeatherReport(data){
             </div>
                 
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[0].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[0].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[0].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[0].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[0].humidity} </strong> </h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[0].temp.day} </strong> </h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[0].pressure} </strong> </h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[0].wind_speed} </strong> </h3>
             </div>
         </div>
     </div>
@@ -412,10 +414,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[1].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[1].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[1].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[1].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"> <strong>Humidity: ${data.daily[1].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[1].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[1].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[1].wind_speed} </strong></h3>
             </div>
         </div>
     </div>
@@ -428,10 +430,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[2].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[2].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[2].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[2].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[2].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[2].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[2].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[2].wind_speed} </strong></h3>
             </div>
         </div>
     </div>
@@ -444,10 +446,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[3].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[3].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[3].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[3].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[3].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[3].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[3].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[3].wind_speed} </strong></h3>
             </div>
         </div>
     </div>
@@ -460,10 +462,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[4].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[4].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[4].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[4].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[4].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[4].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[4].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[4].wind_speed} </strong></h3>
             </div>
         </div>
     </div>
@@ -476,10 +478,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[5].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[5].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[5].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[5].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[5].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[5].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[5].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[5].wind_speed} </strong></h3>
             </div>
         </div>
     </div>
@@ -492,10 +494,10 @@ function showWeatherReport(data){
             </div>
                       
             <div class="card-back">
-                <h3 id="weather-attribute-humid">Humidity: ${data.daily[6].humidity} </h3>
-                <h3 id="weather-attribute-temp">Temperature: ${data.daily[6].temp.day} </h3>
-                <h3 id="weather-attribute-pres">Pressure: ${data.daily[6].pressure} </h3>
-                <h3 id="weather-attribute-ws">Wind-Speed: ${data.daily[6].wind_speed} </h3>
+                <h3 id="weather-attribute-humid"><strong>Humidity: ${data.daily[6].humidity} </strong></h3>
+                <h3 id="weather-attribute-temp"><strong>Temperature: ${data.daily[6].temp.day} </strong></h3>
+                <h3 id="weather-attribute-pres"><strong>Pressure: ${data.daily[6].pressure} </strong></h3>
+                <h3 id="weather-attribute-ws"><strong>Wind-Speed: ${data.daily[6].wind_speed} </strong></h3>
             </div>
         </div>
     </div>`
@@ -521,24 +523,6 @@ function showCityName(data){
 
     city_name.innerHTML = 
     `<center><h1 id="CityName">${ans}</h1></center>`
-}
-
-var SearchBarCityName = document.getElementById("exampleInputCityName");
-function SearchBarAPI(){
-    let CityName = SearchBarCityName.value;
-    fetch('http://api.openweathermap.org/geo/1.0/direct?q='+CityName+'&limit=5&appid=bbd672373a57758125b5a2c935617694')
-        .then(response => response.json())
-        .then(data => DisplayCityNameUsingUsingSearchBar(data))
-
-    .catch(err => console.log(err));
-}
-
-function DisplayCityNameUsingUsingSearchBar(data){
-    let latitude = data[0].lat;
-    let longitude = data[0].lon;
-
-    WeatherReport(latitude, longitude);
-    $(window).scrollTop($('#Days-data-img').position().top);
 }
 
 function displayChart(chartVerticalData, data, chartHorizontalData){
@@ -587,9 +571,28 @@ function displayChart(chartVerticalData, data, chartHorizontalData){
     );
 }
 
+var SearchBarCityName = document.getElementById("exampleInputCityName");
+function SearchBarAPI(){
+    let CityName = SearchBarCityName.value;
+    fetch('http://api.openweathermap.org/geo/1.0/direct?q='+CityName+'&limit=5&appid=bbd672373a57758125b5a2c935617694')
+        .then(response => response.json())
+        .then(data => DisplayCityNameUsingUsingSearchBar(data))
+
+    .catch(err => console.log(err));
+}
+
+function DisplayCityNameUsingUsingSearchBar(data){
+    let latitude = data[0].lat;
+    let longitude = data[0].lon;
+
+    WeatherReport(latitude, longitude);
+    $(window).scrollTop($('#Days-data-img').position().top);
+}
+
+
 showNews();
 function showNews(){
-    fetch('https://newsapi.org/v2/everything?q=bitcoin&apiKey=8b8fe4c2e9cd4c09917b32d63dd3048c')
+    fetch('https://newsapi.org/v2/everything?domains=thenextweb.com,bbc.co.uk&apiKey=482442d496674a29a974b271c24cbe2c')
         .then(response => response.json())
         .then(data => showData(data))
 
@@ -599,7 +602,7 @@ function showNews(){
 let newsAndArticles = document.getElementById('news');
 function showData(data){
     console.log(data);
-
+    
     newsAndArticles.innerHTML = 
     `
     <div class="news-report">
@@ -766,11 +769,4 @@ function showData(data){
         </a>
     </div>
     `
-}
-
-changeBackground();
-function changeBackground(){
-    fetch('https://api.unsplash.com/search/users?page=1&query=nas>; rel="first"')
-        .then(response => response.json())
-        .then(data => console.log(data))
 }

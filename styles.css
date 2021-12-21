@@ -3,27 +3,34 @@ html{
 }
 
 body{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.904);
     font-family: 'Playfair Display', serif;
     overflow-x: hidden;
     overflow-y: scroll;
 }
 
-.jumbotron{
-    margin-bottom: 0px;
-    min-height: 200px;
+#parentNavSearch{
+    background-image: url('/img/weather4.jfif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 380px;
+    margin-bottom: 40px;
+    position: relative;
 }
 
 .navbar{
     top: 0;
-    position: fixed;
+    position: relative;
     width: 100%;
-    margin-bottom: 20px;
-}
-
-.navbar-light .navbar-brand {
-    color: #c5d1c8;
-    float: left;
+    display: flex;
+    /* -ms-flex-wrap: wrap; */
+    flex-wrap: wrap;
+    /* -ms-flex-align: center; */
+    align-items: center;
+    /* -ms-flex-pack: justify; */
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
 }
 
 .navbar .navbar-brand:hover {
@@ -46,18 +53,18 @@ body{
 }
 
 .search-heading{
-    margin-top: 10%;
-    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    margin-left: 30%;
 }
 
-.form-control{
-    width: 70%;
-    margin-left: 30%;
+#exampleInputCityName{
     border: 2px solid maroon;
     border-radius: 20px;
     margin-bottom: 50px;
-    margin-right: 1px;
     overflow-x: hidden;
+    margin-left: 19rem;
+
 }
 
 #dropdownMenuButton{
@@ -65,7 +72,7 @@ body{
     color: black;
     border: 2px solid maroon;
     border-radius: 20px;
-    width: 100px;
+    width: 20%;
     margin-left: 20px;
 }
 
@@ -78,6 +85,7 @@ body{
     color: black;
     border-radius: 20px;
     border: 2px solid maroon;
+    margin-left: 21rem;
 }
 
 .btn:hover{
@@ -87,7 +95,8 @@ body{
 #map{
     margin-bottom: 50px;
     height: 400px;
-    width: 100%;
+    width: 90%;
+    margin-left: 5%;
 }
 
 #label-day{
@@ -291,34 +300,4 @@ body{
     overflow: hidden;
     border: 2px solid black;
     border-top: none;
-}
-
-#footer-row{
-    margin-top: 40px;
-}
-
-.Company-Services{
-    list-style: none;
-}
-
-#newsletter-name{
-    margin-bottom: 20px;
-}
-
-#newsletter-email{
-    margin-bottom: 20px;
-}
-
-#newsletter-submit{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.vl {
-    border-left: 6px solid black;
-    height: 500px;
-    position: absolute;
-    left: 50%;
-    margin-left: -3px;
-    top: 0;
 }
